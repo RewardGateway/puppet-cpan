@@ -74,8 +74,8 @@ Puppet::Type.type(:cpan).provide( :default ) do
     if resource[:local_lib]
       ll = "-Mlocal::lib=#{resource[:local_lib]}"
     end
-    Puppet.debug("perl #{ll} -M#{resource[:name]} -e1 > /dev/null 2>&1")
-    output = `perl #{ll} -M#{resource[:name]} -e1 > /dev/null 2>&1`
+    Puppet.debug("perl #{ll} -M#{resource[:name]} -e'__END__' > /dev/null 2>&1")
+    output = `perl #{ll} -M#{resource[:name]} -e'__END__' > /dev/null 2>&1`
     estatus = $?.exitstatus
 
     case estatus
@@ -85,7 +85,7 @@ Puppet::Type.type(:cpan).provide( :default ) do
       Puppet.debug("#{resource[:name]} not installed")
       false
     else
-      raise Puppet::Error, "perl #{ll} -M#{resource[:name]} -e1 failed with error code #{estatus}: #{output}"
+      raise Puppet::Error, "perl #{ll} -M#{resource[:name]} -e'__END__' failed with error code #{estatus}: #{output}"
     end
   end
 
