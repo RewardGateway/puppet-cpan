@@ -40,7 +40,7 @@ Puppet::Type.type(:cpan).provide( :default ) do
     end
 
     #cpan doesn't always provide the right exit code, so we double check
-    system("perl #{ll} -M#{resource[:name]} -e1 > /dev/null 2>&1")
+    system("perl #{ll} -M#{resource[:name]} -e'__END__' > /dev/null 2>&1")
     estatus = $?.exitstatus
 
     if estatus != 0
